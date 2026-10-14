@@ -432,10 +432,10 @@ addPerfume({
 });
 
 addPerfume({
-	id: 'atlas_null',
+	id: 'atlas',
 	number: '002',
 	trilogy: '001',
-	name: 'ATLAS NULL',
+	name: 'ATLAS',
 	desc: [],
 	image: 'img/perfume/atlas_null.png',
 	bigImage: 'https://i.imgur.com/AcL7vje.png',
