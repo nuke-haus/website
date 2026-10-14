@@ -1,0 +1,474 @@
+
+a:link 
+{
+  color: #002e2e;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+a:visited 
+{
+  color: #002e2e;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+a:hover 
+{
+  color: lime;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+a:active 
+{
+  color: #002e2e;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    background-color: #add3ad;
+    font: inherit;
+    color: currentColor;
+    width: 1.15em;
+    height: 1.15em;
+    border: 0.15em solid currentColor;
+    border-radius: 0.15em;
+    transform: translateY(-0.075em);
+    padding: 2px 6px;
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+}
+
+input[type="checkbox"]::before {
+    content: "";
+    width: 0.65em;
+    height: 0.65em;
+    transform: scale(0);
+    transition: 60ms transform ease-in-out;
+    box-shadow: inset 1em 1em #003a3a;
+}
+  
+input[type="checkbox"]:checked::before {
+    transform: scale(1);
+}
+
+.header
+{
+    height: 259px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.headerlogo
+{
+    display: inline-block;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+.navbar 
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+    margin-top: 16px;
+}
+
+.bar 
+{
+    margin-bottom: 18px;
+	background-color: #000000;
+	height: 32px;
+	width: 100%;
+}
+
+.barshadow
+{
+	background-color: #4e6258;
+	height: 0px;
+	width: 100%;
+}
+
+.topbutton
+{
+    font-size: 66px;
+    margin-left: 45px;
+    margin-right: 45px;
+    cursor: pointer;
+}
+
+.underlined 
+{
+    text-decoration: underline;
+}
+
+.trilogy
+{
+    width: 626px;
+    background-color: #89ad9b;
+    box-shadow: 5px 5px #4e6258;
+    margin: 15px auto;
+    padding: 8px;
+}
+
+.trilogytitle
+{
+    text-align: center;
+    text-decoration: underline;
+    /*text-shadow: 2px 2px 1px #4e6258;*/
+}
+
+.trilogydesc
+{
+    /*text-shadow: 2px 2px 1px #4e6258;*/
+}
+
+.trilogybreak
+{
+    /*text-shadow: 2px 2px 1px #4e6258;*/
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 48px;
+}
+
+.perfume 
+{
+    width: 626px;
+    height: 695px;
+    background-color: #89ad9b;
+    box-shadow: 5px 5px #4e6258;
+    margin: 15px auto;
+    cursor: pointer;
+}
+
+.perfumeimage 
+{
+    width: 600px;
+    height: 600px;
+    margin: 10px;
+    border: 3px #000000 solid;
+}
+
+.perfumeimagelarge
+{
+    border: 3px #000000 solid; 
+    object-fit: contain;
+    max-width: 100%;
+}
+
+.perfumeimagecontainer
+{
+    width: 99%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    margin: 10px auto;
+    padding-bottom: 20px;
+}
+
+.perfumetitle
+{
+    text-align: center;
+    /*text-shadow: 2px 2px 1px #4e6258;*/
+}
+
+.perfumecontainer
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.perfumedesccontainer
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.perfumedescbox
+{
+    width: 626px;
+    background-color: #89ad9b;
+    box-shadow: 5px 5px #4e6258;
+    margin: 0px auto;
+    padding: 8px;
+}
+
+.perfumelistcontainer {
+    /*text-shadow: 2px 2px 1px #4e6258;*/
+    width: 600px;
+    height: 100%;
+    margin: 15px;
+    padding: 4px;
+    float: left;
+    background-color: #89ad9b;
+    box-shadow: 5px 5px #4e6258;
+}
+
+.perfumelistcontainermobile {
+    /*text-shadow: 2px 2px 1px #4e6258;*/
+    font-size: 36px;
+    margin: 30px;
+    background-color: #89ad9b;
+    box-shadow: 5px 5px #4e6258;
+}
+
+.perfumenamebox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 4px;
+    cursor: pointer;
+}
+
+.perfumenameleft {
+    float: left;
+    text-align: left;
+}
+
+.perfumenameright {
+    float: right;
+    text-align: right;
+}
+
+.perfumeouter
+{
+    display: block;
+    margin: auto;
+}
+
+.notecontainer {
+    /*text-shadow: 2px 2px 1px #4e6258;*/
+    width: 80%;
+    height: 100%;
+    padding-top: 20px;
+    margin: 30px auto;
+    background-color: #89ad9b;
+    box-shadow: 5px 5px #4e6258;
+}
+
+.innernotecontainer {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.notetitle {
+    text-decoration: none;
+    padding: 4px 10px 6px 10px;
+    /*box-shadow: 3px 3px 1px #4e6258, inset 3px 3px 1px #4e6258;*/
+    border: 3px solid #000000;
+}
+
+.note {
+    padding: 10px 12px;
+}
+
+.notename1 {
+    font-size: 28px;
+}
+
+.notename2 {
+    font-size: 34px;
+}
+
+.notename3 {
+    font-size: 40px;
+}
+
+.metercontainer {
+    display: flex;
+    justify-content: space-between;
+    /*text-shadow: 2px 2px 1px #4e6258;*/
+    width: 80%;
+    height: 100%;
+    padding: 20px;
+    margin: 30px auto;
+    background-color: #89ad9b;
+    box-shadow: 5px 5px #4e6258;
+}
+
+.meter {
+    width: 12px;
+    height: 12px;
+    background-color: #000000;
+    box-shadow: 3px 3px #4e6258;
+    margin: auto;
+}
+
+.meterselected {
+    width: 28px;
+    height: 28px;
+    background-color: #000000;
+    box-shadow: 3px 3px #4e6258;
+    margin: auto;
+}
+
+.meterblank {
+    margin: auto;
+}
+
+.metertext {
+    width: 250px;
+}
+
+.metertitle {
+    text-decoration: none;
+    padding: 4px 10px;
+    box-shadow: 3px 3px 1px #4e6258, inset 3px 3px 1px #4e6258;
+    border: 3px solid #000000;
+}
+
+.metertitlel {
+    text-align: left;
+    margin-right: auto;
+    margin-left: 0px;
+}
+
+.metertitler {
+    text-align: right;
+    margin-right: 0px;
+    margin-left: auto;
+}
+
+.filter {
+    /*text-shadow: 2px 2px 1px #4e6258;*/
+    width: 350px;
+    height: 100%;
+    margin: 15px;
+    float: left;
+    background-color: #89ad9b;
+    box-shadow: 5px 5px #4e6258;
+}
+
+.filterclosed {
+    /*text-shadow: 2px 2px 1px #4e6258;*/
+    width: 128px;
+    height: 38px;
+    margin: 15px;
+    float: left;
+    background-color: #89ad9b;
+    box-shadow: 5px 5px #4e6258;
+}
+
+.filterbutton {
+    margin: 0px 2px;
+    cursor: pointer;
+}
+
+.filterspace {
+    margin-bottom: 8px;
+}
+
+.filterheader {
+    margin: 4px;
+}
+
+.filterbox {
+    display: flex;
+    flex-direction: row;
+    margin: 4px 0px;
+}
+
+.aboutbox
+{
+    width: 80%;
+    background-color: #89ad9b;
+    box-shadow: 5px 5px #4e6258;
+    margin: 33px auto;
+    padding: 8px;
+}
+
+.aboutcontainer
+{
+    /*text-shadow: 2px 2px 1px #4e6258;*/
+    width: 80%;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.aboutright
+{
+    border-right: 3px solid #4e6258;
+    text-align: right;
+    padding-right: 16px;
+    font-size: 24px;
+}
+
+.aboutleft
+{
+    border-left: 3px solid #4e6258;
+    text-align: left;
+    padding-left: 16px;
+    font-size: 24px;
+}
+
+.aboutrightmobile
+{
+    border-right: 3px solid #4e6258;
+    text-align: right;
+    padding-right: 16px;
+    font-size: 12px;
+}
+
+.aboutleftmobile
+{
+    border-left: 3px solid #4e6258;
+    text-align: left;
+    padding-left: 16px;
+    font-size: 12px;
+}
+
+.detailscontainer
+{
+    width: 90%;
+    margin: auto;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.detailstitle
+{
+    font-size: 66px;
+    text-align: center;
+    margin: 30px;
+}
+
+.detailsdesc
+{
+    /*text-shadow: 2px 2px 1px #4e6258;*/
+    text-align: center;
+    margin-bottom: 35px;
+    margin-top: 50px;
+}
+
+body
+{
+    font-size: 34px;
+    /*font-family: 'Work Sans', sans-serif;*/
+    font-family: 'Barlow Semi Condensed', sans-serif;
+  	/*text-shadow: 3px 3px 1px #4e6258;*/
+	
+    color: #000000;
+    background-color: #6f8c7d;
+	
+    height: 100vh;
+    margin: 0;
+	
+	  -webkit-font-smoothing: antialiased;
+}

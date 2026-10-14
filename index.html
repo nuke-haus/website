@@ -1,0 +1,425 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#" lang="en-CA" xml:lang="en-CA">
+
+<head>
+	<title>NUKEHAUS</title>
+	<meta charset="utf-8"/>
+	<meta property="og:image" content="https://i.imgur.com/Zqx4ttK.png"/>
+	<meta name="description" content="Fanatical modern perfumery for the discerning maniac.">
+	<link rel="icon" type="image/x-icon" href="img/favicon.ico"/>
+	<link href="style.css" rel="stylesheet" type="text/css"/>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@600&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@600&display=swap" rel="stylesheet">
+
+	<!--<script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>-->
+    <!--<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>-->
+	<!--<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>-->
+	<!--<script type="text/babel" src="react/page.jsx"></script>-->
+</head>
+
+<body>
+	<div id="reactcontainer">
+	</div>
+
+	<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+	<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.24.0/babel.js"></script>
+	<script type="text/javascript" src="perfumes.js"></script>
+	<script type="text/babel">
+
+		class Page extends React.Component {
+
+			NAV_PARFUMS = "FRAGRANCES";
+			NAV_ABOUT = "ABOUT";
+			NAV_DETAILS = "DEETS";
+
+			state = {
+				currentTrilogy: null,
+				currentPerfume: {},
+				currentNav: "FRAGRANCES",
+				showFilter: false,
+				filter: []
+			};
+
+			constructor(props) {
+				super(props);
+    		}
+
+			_isMobileBrowser() {
+				let hasTouchScreen = false;
+				if ("maxTouchPoints" in navigator) {
+					hasTouchScreen = navigator.maxTouchPoints > 0;
+				} 
+				return hasTouchScreen;
+			}
+
+			_onFilter(ingredient) {
+				let filter = this.state.filter;
+				if (this.state.filter.includes(ingredient.id)) {
+					filter = filter.filter(item => item !== ingredient.id);
+				} else {
+					filter.push(ingredient.id);
+				}
+				this.setState({filter: filter});
+			}
+
+			_onFilterToggleClick(isFiltering) {
+				this.setState({showFilter: isFiltering});
+			}
+			
+			_onPerfumeHover(perfume) {
+				this.setState({currentPerfume: perfume, currentTrilogy: null});
+			}
+
+			_onTrilogyHover(trilogy) {
+				this.setState({currentPerfume: {}, currentTrilogy: trilogy});
+			}
+
+			_onPerfumeClick(perfume, nav) {
+				this.setState({currentPerfume: perfume, currentNav: nav});
+			}
+
+			_onNavClick(id) {
+				this.setState({currentNav: id});
+			}
+
+			componentDidCatch(error, errorInfo) {
+				console.log(error, errorInfo);
+			}
+
+			_getClass(className) {
+				return ((this.state.currentNav == className) || (this.state.currentNav === this.NAV_DETAILS && className === this.NAV_PARFUMS))
+					? "topbutton underlined"
+					: "topbutton";
+			}
+
+			_renderNotes(notes, title) {
+				const elements = [];
+				for (let noteData of notes) {
+					if (noteData.note == null || noteData.note.name == null) {
+						continue;
+					}
+					elements.push( 
+						<div className="note" key={noteData.note.id + title}>
+							<u className={"notename" + noteData.strength}>{noteData.note.name}</u>
+						</div>
+					);
+				}
+				return (
+					<div className="notecontainer">
+						<span className="notetitle">
+							{title}
+						</span>
+						<br/>
+						<div className="innernotecontainer">
+							{elements}
+						</div>
+					</div>
+				);
+			}
+
+			_renderMeter(leftText, rightText, value) {
+				const elements = [];
+				for (let count = 0; count <= 10; count++) {
+					let className = "meterblank";
+					if (count === 0 || count === 10) {
+						className = "meter"
+					} 
+					if (count === value) {
+						className = "meterselected"
+					}
+					elements.push(
+						<div key={"meter" + count} className={className}/>
+					);
+				}
+				return (
+					<div className="metercontainer">
+						<div className="metertext">
+							<div className="metertitlel">
+								<span className="metertitle">
+									{leftText}
+								</span>
+							</div>
+						</div>
+						{elements}
+						<div className="metertext">
+							<div className="metertitler">
+								<span className="metertitle">
+									{rightText}
+								</span>
+							</div>
+						</div>
+					</div>
+				);
+			}
+
+			render() {
+				let perfumes = null;
+				let about = null;
+				let details = null;
+
+				if (this.state.currentNav == this.NAV_PARFUMS) { // PERFUME DISPLAY
+
+					const elements = [];
+					let filter = null;
+
+					if (this.state.showFilter === true) {
+						const filters = [];
+						for (let note of NH.notes || []) {
+							filters.push(
+								<div key={note.id} className="filterbox">
+									<div>
+										<input type="checkbox" value={note.id} checked={this.state.filter.includes(note.id)} onChange={() => this._onFilter(note)}></input>
+									</div>
+									<div>
+										{note.name}
+									</div>
+								</div>
+							);
+						}
+						filter = (
+							<div className="filter">
+								<div className="filterbutton filterspace" onClick={() => this._onFilterToggleClick(false)}>
+									{'\u{1F4D1} HIDE FILTER'}
+								</div>
+								{filters}
+							</div>
+						);
+					} else {
+						filter = (
+							<div className="filterclosed">
+								<div className="filterbutton" onClick={() => this._onFilterToggleClick(true)}>
+									{'\u{1F4D1} FILTER'}
+								</div>
+							</div>
+						);
+					}
+
+					/*const test = (
+							<div className="perfume" key={perfume.id} onClick={() => this._onPerfumeClick(perfume, this.NAV_DETAILS)}>
+								<img className="perfumeimage" src={perfume.image}/>
+								<div className="perfumetitle">
+									{perfume.name}
+								</div>
+							</div>
+					)*/
+
+					let currentPerfume = null;
+					if (this.state.currentPerfume != null && this.state.currentPerfume.id != null) {
+						currentPerfume = (
+							<div className="perfume" key={this.state.currentPerfume.id} onClick={() => this._onPerfumeClick(this.state.currentPerfume, this.NAV_DETAILS)}>
+								<img className="perfumeimage" src={this.state.currentPerfume.image}/>
+								<div className="perfumetitle">
+									{this.state.currentPerfume.number + " " + this.state.currentPerfume.name}
+								</div>
+							</div>
+						);
+					}
+					let currentTrilogyElement = null;
+					if (this.state.currentTrilogy != null) {
+						const descElements = [];
+						let count = 0;
+						for (let str of this.state.currentTrilogy.desc) {
+							count++;
+							descElements.push(
+								<React.Fragment key={"desc" + count}>
+									{str}
+								</React.Fragment>
+							);
+							if (count < this.state.currentTrilogy.desc.length) {
+								descElements.push(
+									<br key={"trilogybreak" + count}/>
+								);
+								descElements.push(
+									<br key={"secondtrilogybreak" + count}/>
+								);
+							}
+							//descElements.push(
+							//	<div className="trilogybreak" key={"descbr" + count}/>
+							//);
+						}
+						currentTrilogyElement = (
+							<div className="trilogy">
+								<div className="trilogytitle">
+									{this.state.currentTrilogy.number + " " + this.state.currentTrilogy.name}
+								</div>
+								<br/>
+								{descElements}
+							</div>
+						)
+					}
+
+
+					let currentTrilogy = null;
+					for (let perfume of NH.perfumes || []) {
+						if (perfume.trilogy != currentTrilogy) {
+							currentTrilogy = perfume.trilogy;
+							const trilogy = getTrilogy(currentTrilogy);
+							const underline = (this.state.currentTrilogy != null && currentTrilogy === this.state.currentTrilogy.number)
+								? "underlined"
+								: "";
+							elements.push(
+								<div className="perfumenamebox" key={"trilogy" + perfume.id} onMouseOver={() => this._onTrilogyHover(trilogy)}>
+									<div className={"perfumenameleft " + underline}>{"TRILOGY " + currentTrilogy}</div>
+									<div className={"perfumenameright " + underline}>{trilogy.name}</div>
+								</div>
+							);
+						}
+						const underline = (perfume.id === this.state.currentPerfume.id && !this._isMobileBrowser())
+							? "underlined"
+							: "";
+						elements.push(
+							<div className="perfumenamebox" key={perfume.id} onMouseOver={() => this._onPerfumeHover(perfume)} onClick={() => this._onPerfumeClick(perfume, this.NAV_DETAILS)}>
+								<div className={"perfumenameleft " + underline}>{perfume.number}</div>
+								<div className={"perfumenameright " + underline}>{perfume.name}</div>
+							</div>
+						);
+					}
+
+					if (this._isMobileBrowser()) {
+						perfumes = (
+							<div className="perfumeouter">
+								<div className="perfumelistcontainermobile">
+									{elements}
+								</div>
+								<div className="perfumecontainer">
+									{currentTrilogyElement}
+								</div>
+							</div>
+						);
+					} else {
+						perfumes = (
+							<div className="perfumeouter">
+								<div className="perfumelistcontainer">
+									{elements}
+								</div>
+								<div className="perfumecontainer">
+									{currentPerfume}
+									{currentTrilogyElement}
+								</div>
+							</div>
+						);
+					}
+
+					
+
+				} else if (this.state.currentNav == this.NAV_DETAILS) { // PERFUME DETAILS DISPLAY
+
+					//{this._renderMeter("MASCULINE", "FEMININE", this.state.currentPerfume.genderScore)}
+					//{this._renderMeter("LINEAR", "DYNAMIC", this.state.currentPerfume.dynamicScore)}
+					//{this._renderMeter("MINIMALIST", "COMPLEX", this.state.currentPerfume.complexityScore)}
+					//{this._renderMeter("INTIMATE", "NUCLEAR", this.state.currentPerfume.sillageScore)}
+					//{this._renderMeter("FLEETING", "ETERNAL", this.state.currentPerfume.longevityScore)}
+					//{this._renderMeter("COLD WEATHER", "HOT WEATHER", this.state.currentPerfume.weatherScore)}
+					const descElements = [];
+					let count = 0;
+					for (let str of this.state.currentPerfume.desc) {
+						count++;
+						descElements.push(
+							<React.Fragment key={"desc" + count}>
+								{str}
+							</React.Fragment>
+						);
+						if (count < this.state.currentPerfume.desc.length) {
+							descElements.push(
+								<br key={"break" + count}/>
+							);
+							descElements.push(
+								<br key={"secondbreak" + count}/>
+							);
+						}
+						//descElements.push(
+						//	<div className="trilogybreak" key={"descbr" + count}/>
+						//);
+					}
+					const descElement = (
+						<div className="perfumedescbox">
+							{descElements}
+						</div>
+					)
+
+					details = (
+						<React.Fragment>
+							<div className="detailscontainer">
+								<div className="detailstitle">
+									{this.state.currentPerfume.name}
+								</div>
+								{this._renderNotes(this.state.currentPerfume.topNotes, "TOP NOTES")}
+								{this._renderNotes(this.state.currentPerfume.heartNotes, "HEART NOTES")}
+								{this._renderNotes(this.state.currentPerfume.baseNotes, "BASE NOTES")}
+							</div>
+							<div className="perfumedesccontainer">
+								{descElement}
+							</div>
+							<div className="perfumeimagecontainer">
+								<img className="perfumeimagelarge" src={this.state.currentPerfume.bigImage}/>
+							</div>
+						</React.Fragment>
+					);
+
+				} else { // ABOUT DISPLAY
+
+					about = (
+						<div>
+							<div className="aboutbox">
+								NUKEHAUS IS AN INDEPENDENT ARTISAN FRAGRANCE HOUSE LOCATED IN MONTRÉAL, QUÉBEC. <br/>
+								FOUNDED IN 2021, NUKEHAUS SERVES AS A CONDUIT FOR ALL OF MY FANATICAL OLFACTIVE THEORIES. <br/>
+								<br/>
+								I RELEASE MY FRAGRANCES IN TRILOGIES WITH A UNIFYING THEME. <br/>
+								MY METICULOUSLY CREATED DIGITAL ART ACCOMPANIES EACH FRAGRANCE CONCEPT. <br/>
+								<br/>
+								ALL NUKEHAUS FRAGRANCES ARE CREATED USING MY FORMULATION TOOL, <a href="https://github.com/nuke-haus/perfumenuke">PERFUMENUKE</a>. <br/>
+								I SHARE THIS TOOL AS OPEN-SOURCE SOFTWARE FOR ALL PERFUMERS TO USE. <br/>
+								<br/>
+								FOR MORE INFORMATION, FOLLOW NUKEHAUS ON <a href="https://www.instagram.com/nukehaus">INSTAGRAM</a>. <br/>
+								<br/>
+								IF YOU ARE READING THIS, THEN YOU HAVE SOMEHOW FOUND MY WEBSITE BEFORE I WAS ABLE TO RELEASE MY FIRST TRILOGY. <br/>
+								<br/>
+								THE WEBSITE IS FULL OF PLACEHOLDER TEXT, FOR NOW...<br/>
+								<br/>
+								IF THERE'S ROOM TO MOVE, THINGS MOVE.<br/>
+							</div>
+							<div className="perfumeimagecontainer">
+								<img className="perfumeimagelarge" src='https://i.imgur.com/AcL7vje.png'/>
+							</div>
+						</div>
+					);
+				}
+
+				return (
+					<div>
+						<div className="header">
+							<img className="headerlogo" src="img/logo.png"/>
+						</div>
+						<div className="navbar">
+							<div className={this._getClass(this.NAV_ABOUT)} onClick={() => this._onNavClick(this.NAV_ABOUT)}>
+								{this.NAV_ABOUT}
+							</div>
+							<div className={this._getClass(this.NAV_PARFUMS)} onClick={() => this._onNavClick(this.NAV_PARFUMS)}>
+								{this.NAV_PARFUMS}
+							</div>
+						</div>
+						<div className="bar">
+						</div>
+						<div className="barshadow">
+						</div>
+						{perfumes}
+						{details}
+						{about}
+					</div>
+				);
+			}
+		}
+
+		const e = React.createElement;
+		const container = document.querySelector('#reactcontainer');
+		ReactDOM.render(e(Page), container);
+
+	</script>
+</body>
+
+</html>
